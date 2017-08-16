@@ -1,0 +1,16 @@
+version: '3.2'
+services:
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+  app:
+    build: .
+    env_file:
+      - '.env'
+    volumes:
+      - .:/app
+    ports:
+      - '4000:4000'
+    links:
+      - db

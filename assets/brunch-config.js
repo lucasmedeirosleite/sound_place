@@ -37,6 +37,10 @@ exports.config = {
     assets: /^(static)/
   },
 
+  watcher: {
+    usePolling: true
+  },
+
   // Phoenix paths configuration
   paths: {
     // Dependencies and current project directories to watch

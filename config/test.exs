@@ -13,5 +13,5 @@ config :sound_place,
        username: "postgres",
        password: "postgres",
        database: "sound_place_test",
-       hostname: "localhost",
+       hostname: "db",
        pool: Ecto.Adapters.SQL.Sandbox
