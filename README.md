@@ -52,3 +52,14 @@ Some steps bellow does not apply to **Linux** or **Windows** users:
 ## Deploy
 
 - [ ] TODO: [Check phoenix deployment guides](http://www.phoenixframework.org/docs/deployment).
+
+[docker-linux]: https://docker.github.io/engine/installation/
+[docker-macos]: https://docs.docker.com/docker-for-mac/
+[docker-windows]: https://docs.docker.com/docker-for-windows/
+
+[virtual-box]: https://www.virtualbox.org/wiki/Downloads
+
+[docker-machine]: https://docs.docker.com/machine/install-machine/
+[docker-machine-nfs]: https://github.com/adlogix/docker-machine-nfs
+
+[gh-generating-ssh-keys]: https://help.github.com/articles/generating-ssh-keys/
