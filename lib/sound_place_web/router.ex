@@ -23,6 +23,7 @@ defmodule SoundPlaceWeb.Router do
     pipe_through :browser
 
     resources "/dashboard", DashboardController, only: [:index]
+    resources "/users", UserController, except: [:show]
   end
 
   # Other scopes may use custom stacks.

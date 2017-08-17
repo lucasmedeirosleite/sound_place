@@ -14,14 +14,46 @@
   </head>
 
   <body>
-    <div class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <main class="wrapper">
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-    </div>
+      <nav class="navigation">
+        <section class="container">
+          <%= link(to: admin_dashboard_path(@conn, :index), class: "navigation-title") do %>
+            <h1 class="title">Sound Place</h1>
+          <% end %>
+
+          <ul class="navigation-list float-right">
+            <li class="navigation-item">
+              <%= link("Dashboard",
+                       to: admin_dashboard_path(@conn, :index),
+                       class: "navigation-link") %>
+            </li>
+
+            <li class="navigation-item">
+              <%= link("Users",
+                       to: admin_user_path(@conn, :index),
+                       class: "navigation-link") %>
+            </li>
+          </ul>
+        </section>
+      </nav>
+
+      <section class="container">
+        <%= render "messages.html", conn: @conn %>
+
+        <div class="row">
+          <div class="column">
+            <%= render @view_module, @view_template, assigns %>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <section class="container">
+          <p>Designed by Sound Place.</p>
+        </section>
+      </footer>
+    </main>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script>
