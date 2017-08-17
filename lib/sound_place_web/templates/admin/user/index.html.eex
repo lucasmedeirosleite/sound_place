@@ -1,1 +1,30 @@
 <h3>Admin users</h3>
+
+<%= link("New user", to: admin_user_path(@conn, :new), class: "button") %>
+
+<table>
+  <thead>
+    <th>E-mail</th>
+    <th>Username</th>
+    <th>Name</th>
+    <th></th>
+  </thead>
+  <tbody>
+      <%= for user <- @users do %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.username %></td>
+          <td><%= user.credential.email %></td>
+          <td>
+            <%= link("Remove",
+                     to: admin_user_path(@conn, :delete, user),
+                     class: "button button-outline",
+                     method: :delete,
+                     data: [confirm: "Are you sure?"]) %>
+          </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<%= link("New user", to: admin_user_path(@conn, :new), class: "button") %>

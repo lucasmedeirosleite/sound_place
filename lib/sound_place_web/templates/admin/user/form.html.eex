@@ -1,0 +1,40 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <fieldset>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= label f, :name, class: "control-label" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :username, class: "control-label" %>
+      <%= text_input f, :username, class: "form-control" %>
+      <%= error_tag f, :username %>
+    </div>
+
+    <%= inputs_for f, :credential, fn cf -> %>
+      <div class="form-group">
+        <%= label cf, :email, class: "control-label" %>
+        <%= email_input cf, :email, class: "form-control" %>
+        <%= error_tag cf, :email %>
+      </div>
+
+      <div class="form-group">
+        <%= label cf, :password, class: "control-label" %>
+        <%= password_input cf, :password, class: "form-control" %>
+        <%= error_tag cf, :password %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= submit "Submit", class: "button-primary" %>
+      <%= link("Back", to: admin_user_path(@conn, :index), class: "button button-outline") %>
+    </div>
+  </fieldset>
+<% end %>

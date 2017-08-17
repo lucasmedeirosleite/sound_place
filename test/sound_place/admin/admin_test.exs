@@ -6,8 +6,8 @@ defmodule SoundPlace.AdminTest do
   describe "users" do
     alias SoundPlace.Admin.User
 
-    @valid_attrs %{name: "some name", username: "some username"}
-    @update_attrs %{name: "some updated name", username: "some updated username"}
+    @credential_attrs %{email: "email@example.com", password: "123456"}
+    @valid_attrs %{name: "some name", username: "some username", credential: @credential_attrs}
     @invalid_attrs %{name: nil, username: nil}
 
     def user_fixture(attrs \\ %{}) do
@@ -20,13 +20,20 @@ defmodule SoundPlace.AdminTest do
     end
 
     test "list_users/0 returns all users" do
-      user = user_fixture()
-      assert Admin.list_users() == [user]
+      user_fixture()
+
+      assert Enum.count(Admin.list_users()) > 0
     end
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Admin.get_user!(user.id) == user
+
+      retrieved_user = Admin.get_user!(user.id)
+
+      assert  retrieved_user.id == user.id
+      assert  retrieved_user.name == user.name
+      assert  retrieved_user.username == user.username
+      assert  retrieved_user.credential.email == user.credential.email
     end
 
     test "create_user/1 with valid data creates a user" do
@@ -37,20 +44,6 @@ defmodule SoundPlace.AdminTest do
 
     test "create_user/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Admin.create_user(@invalid_attrs)
-    end
-
-    test "update_user/2 with valid data updates the user" do
-      user = user_fixture()
-      assert {:ok, user} = Admin.update_user(user, @update_attrs)
-      assert %User{} = user
-      assert user.name == "some updated name"
-      assert user.username == "some updated username"
-    end
-
-    test "update_user/2 with invalid data returns error changeset" do
-      user = user_fixture()
-      assert {:error, %Ecto.Changeset{}} = Admin.update_user(user, @invalid_attrs)
-      assert user == Admin.get_user!(user.id)
     end
 
     test "delete_user/1 deletes the user" do

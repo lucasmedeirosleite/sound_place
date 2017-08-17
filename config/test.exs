@@ -15,3 +15,5 @@ config :sound_place,
        database: "sound_place_test",
        hostname: "db",
        pool: Ecto.Adapters.SQL.Sandbox
+
+config :bcrypt_elixir, :log_rounds, 4

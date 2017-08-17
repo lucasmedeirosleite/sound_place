@@ -1,0 +1,3 @@
+<h3>Add a new user</h3>
+
+<%= render "form.html", Map.put(assigns, :action, admin_user_path(@conn, :create)) %>
