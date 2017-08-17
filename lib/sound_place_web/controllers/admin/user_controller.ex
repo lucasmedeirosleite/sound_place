@@ -18,13 +18,12 @@ defmodule SoundPlaceWeb.Admin.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Admin.create_user(user_params) do
-      {:ok, _user} ->
-        conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: admin_user_path(conn, :index))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+    with {:ok, _user} <- Admin.create_user(user_params) do
+      conn
+      |> put_flash(:info, "User created successfully.")
+      |> redirect(to: admin_user_path(conn, :index))
+    else {:error, %Ecto.Changeset{} = changeset} -> 
+      render(conn, :new, changeset: changeset)
     end
   end
 
