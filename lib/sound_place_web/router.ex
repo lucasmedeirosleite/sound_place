@@ -13,14 +13,22 @@ defmodule SoundPlaceWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin_session do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.EnsureAuthenticated, handler: SoundPlaceWeb.SessionController
+    plug Guardian.Plug.LoadResource
+    plug SoundPlaceWeb.CurrentUser
+  end
+
   scope "/", SoundPlaceWeb do
     pipe_through :browser
 
     get "/", HomeController, :index
+    resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 
   scope "/admin", SoundPlaceWeb.Admin, as: :admin do
-    pipe_through :browser
+    pipe_through [:browser, :admin_session]
 
     resources "/dashboard", DashboardController, only: [:index]
     resources "/users", UserController, except: [:show, :edit, :update]

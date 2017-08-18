@@ -18,53 +18,25 @@
 
       <nav class="navigation">
         <section class="container">
-          <%= link(to: admin_dashboard_path(@conn, :index), class: "navigation-title") do %>
+          <%= link(to: admin_dashboard_path(@conn, :index), class: "navigation-title sign-in-navigation-logo") do %>
             <h1 class="title">Sound Place</h1>
           <% end %>
-
-          <ul class="navigation-list float-right">
-            <li class="navigation-item">
-              <%= link("Dashboard",
-                       to: admin_dashboard_path(@conn, :index),
-                       class: "navigation-link") %>
-            </li>
-
-            <li class="navigation-item">
-              <%= link("Users",
-                       to: admin_user_path(@conn, :index),
-                       class: "navigation-link") %>
-            </li>
-
-            <li class="navigation-item">
-              <%= link("Sign out",
-                       to: session_path(@conn, :delete),
-                       class: "navigation-link",
-                       method: :delete,
-                       data: [confirm: "Are you sure?"]) %>
-            </li>
-          </ul>
         </section>
       </nav>
 
       <section class="container">
         <div class="row">
-          <div class="column">
+          <div class="column column-50 column-offset-25">
             <%= render "messages.html", conn: @conn %>
           </div>
         </div>
 
         <div class="row">
-          <div class="column">
+          <div class="column column-50 column-offset-25">
             <%= render @view_module, @view_template, assigns %>
           </div>
         </div>
       </section>
-
-      <footer class="footer">
-        <section class="container">
-          <p>Designed by Sound Place.</p>
-        </section>
-      </footer>
     </main>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

@@ -1,13 +1,9 @@
-<div class="row">
-  <div class="column">
-    <% info = get_flash(@conn, :info) %>
-    <%= if info do %>
-      <p class="alert alert-info"><%= info %></p>
-    <% end %>
+<% info = get_flash(@conn, :info) %>
+<%= if info do %>
+  <p class="alert alert-info"><%= info %></p>
+<% end %>
 
-    <% error = get_flash(@conn, :error) %>
-    <%= if error do %>
-      <p class="alert alert-danger"><%= error %></p>
-    <% end %>
-  </div>
-</div>
+<% error = get_flash(@conn, :error) %>
+<%= if error do %>
+  <p class="alert alert-danger"><%= error %></p>
+<% end %>

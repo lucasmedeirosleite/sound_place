@@ -10,6 +10,17 @@ config :sound_place,
        render_errors: [view: SoundPlaceWeb.ErrorView, accepts: ~w(html json)],
        pubsub: [name: SoundPlace.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :guardian,
+       Guardian,
+       allowed_algos: ["HS512"],
+       verify_module: Guardian.JWT,
+       issuer: "SoundPlace.#{Mix.env}",
+       ttl: { 30, :days },
+       allowed_drift: 2000,
+       verify_issuer: true,
+       secret_key: System.get_env("GUARDIAN_SECRET_KEY"),
+       serializer: SoundPlaceWeb.GuardianSerializer
+
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 
 import_config "#{Mix.env}.exs"
