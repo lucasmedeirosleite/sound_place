@@ -28,6 +28,8 @@ defmodule SoundPlaceWeb.SessionController do
     |> redirect(to: admin_dashboard_path(conn, :index))
   end
 
+  # Guardian callbacks
+
   def unauthenticated(conn, _params) do
     conn
     |> put_flash(:info, "You must be signed in to access this page")
