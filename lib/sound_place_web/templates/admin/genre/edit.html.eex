@@ -1,0 +1,3 @@
+<h2>Edit genre <%= "##{@genre.id}"  %></h2>
+
+<%= render "form.html", Map.put(assigns, :action, admin_genre_path(@conn, :update, @genre)) %>

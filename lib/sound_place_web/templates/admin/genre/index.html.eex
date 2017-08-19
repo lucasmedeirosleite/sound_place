@@ -1,0 +1,32 @@
+<h3>Genres</h3>
+
+<%= link("New genre", to: admin_genre_path(@conn, :new), class: "button") %>
+
+<table>
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th></th>
+  </thead>
+  <tbody>
+      <%= for genre <- @genres do %>
+        <tr>
+          <td><%= genre.id %></td>
+          <td><%= genre.name %></td>
+          <td>
+            <%= link("Edit",
+                     to: admin_genre_path(@conn, :edit, genre),
+                     class: "button") %>
+
+            <%= link("Remove",
+                     to: admin_genre_path(@conn, :delete, genre),
+                     class: "button button-outline",
+                     method: :delete,
+                     data: [confirm: "Are you sure?"]) %>
+          </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<%= link("New genre", to: admin_genre_path(@conn, :new), class: "button") %>
