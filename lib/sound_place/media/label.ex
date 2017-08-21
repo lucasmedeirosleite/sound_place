@@ -3,7 +3,6 @@ defmodule SoundPlace.Media.Label do
   import Ecto.Changeset
   alias SoundPlace.Media.Label
 
-
   schema "labels" do
     field :name, :string
 

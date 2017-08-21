@@ -1,0 +1,3 @@
+<h2>Edit album type <%= "##{@album_type.id}"  %></h2>
+
+<%= render "form.html", Map.put(assigns, :action, admin_album_type_path(@conn, :update, @album_type)) %>

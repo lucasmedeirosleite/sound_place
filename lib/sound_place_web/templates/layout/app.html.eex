@@ -34,6 +34,13 @@
               <div class="popover" id="popover-grid">
                 <ul class="popover-list">
                   <li class="popover-item">
+                    <%= link("Album types",
+                             to: admin_album_type_path(@conn, :index),
+                             class: "popover-link",
+                             title: "Album types") %>
+                  </li>
+
+                  <li class="popover-item">
                     <%= link("Genres",
                              to: admin_genre_path(@conn, :index),
                              class: "popover-link",

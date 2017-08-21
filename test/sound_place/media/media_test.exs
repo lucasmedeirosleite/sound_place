@@ -122,4 +122,64 @@ defmodule SoundPlace.MediaTest do
       assert %Ecto.Changeset{} = Media.change_label(label)
     end
   end
+
+  describe "album_types" do
+    alias SoundPlace.Media.AlbumType
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def album_type_fixture(attrs \\ %{}) do
+      {:ok, album_type} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Media.create_album_type()
+
+      album_type
+    end
+
+    test "list_album_types/0 returns all album_types" do
+      album_type = album_type_fixture()
+      assert Media.list_album_types() == [album_type]
+    end
+
+    test "get_album_type!/1 returns the album_type with given id" do
+      album_type = album_type_fixture()
+      assert Media.get_album_type!(album_type.id) == album_type
+    end
+
+    test "create_album_type/1 with valid data creates a album_type" do
+      assert {:ok, %AlbumType{} = album_type} = Media.create_album_type(@valid_attrs)
+      assert album_type.name == "some name"
+    end
+
+    test "create_album_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Media.create_album_type(@invalid_attrs)
+    end
+
+    test "update_album_type/2 with valid data updates the album_type" do
+      album_type = album_type_fixture()
+      assert {:ok, album_type} = Media.update_album_type(album_type, @update_attrs)
+      assert %AlbumType{} = album_type
+      assert album_type.name == "some updated name"
+    end
+
+    test "update_album_type/2 with invalid data returns error changeset" do
+      album_type = album_type_fixture()
+      assert {:error, %Ecto.Changeset{}} = Media.update_album_type(album_type, @invalid_attrs)
+      assert album_type == Media.get_album_type!(album_type.id)
+    end
+
+    test "delete_album_type/1 deletes the album_type" do
+      album_type = album_type_fixture()
+      assert {:ok, %AlbumType{}} = Media.delete_album_type(album_type)
+      assert_raise Ecto.NoResultsError, fn -> Media.get_album_type!(album_type.id) end
+    end
+
+    test "change_album_type/1 returns a album_type changeset" do
+      album_type = album_type_fixture()
+      assert %Ecto.Changeset{} = Media.change_album_type(album_type)
+    end
+  end
 end
