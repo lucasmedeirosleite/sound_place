@@ -62,4 +62,64 @@ defmodule SoundPlace.MediaTest do
       assert %Ecto.Changeset{} = Media.change_genre(genre)
     end
   end
+
+  describe "labels" do
+    alias SoundPlace.Media.Label
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def label_fixture(attrs \\ %{}) do
+      {:ok, label} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Media.create_label()
+
+      label
+    end
+
+    test "list_labels/0 returns all labels" do
+      label = label_fixture()
+      assert Media.list_labels() == [label]
+    end
+
+    test "get_label!/1 returns the label with given id" do
+      label = label_fixture()
+      assert Media.get_label!(label.id) == label
+    end
+
+    test "create_label/1 with valid data creates a label" do
+      assert {:ok, %Label{} = label} = Media.create_label(@valid_attrs)
+      assert label.name == "some name"
+    end
+
+    test "create_label/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Media.create_label(@invalid_attrs)
+    end
+
+    test "update_label/2 with valid data updates the label" do
+      label = label_fixture()
+      assert {:ok, label} = Media.update_label(label, @update_attrs)
+      assert %Label{} = label
+      assert label.name == "some updated name"
+    end
+
+    test "update_label/2 with invalid data returns error changeset" do
+      label = label_fixture()
+      assert {:error, %Ecto.Changeset{}} = Media.update_label(label, @invalid_attrs)
+      assert label == Media.get_label!(label.id)
+    end
+
+    test "delete_label/1 deletes the label" do
+      label = label_fixture()
+      assert {:ok, %Label{}} = Media.delete_label(label)
+      assert_raise Ecto.NoResultsError, fn -> Media.get_label!(label.id) end
+    end
+
+    test "change_label/1 returns a label changeset" do
+      label = label_fixture()
+      assert %Ecto.Changeset{} = Media.change_label(label)
+    end
+  end
 end

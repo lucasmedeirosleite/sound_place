@@ -1,0 +1,32 @@
+<h3>Labels</h3>
+
+<%= link("New label", to: admin_label_path(@conn, :new), class: "button") %>
+
+<table>
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th></th>
+  </thead>
+  <tbody>
+      <%= for label <- @labels do %>
+        <tr>
+          <td><%= label.id %></td>
+          <td><%= label.name %></td>
+          <td>
+            <%= link("Edit",
+                     to: admin_label_path(@conn, :edit, label),
+                     class: "button") %>
+
+            <%= link("Remove",
+                     to: admin_label_path(@conn, :delete, label),
+                     class: "button button-outline",
+                     method: :delete,
+                     data: [confirm: "Are you sure?"]) %>
+          </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<%= link("New label", to: admin_label_path(@conn, :new), class: "button") %>

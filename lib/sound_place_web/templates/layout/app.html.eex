@@ -34,11 +34,17 @@
               <div class="popover" id="popover-grid">
                 <ul class="popover-list">
                   <li class="popover-item">
-                    <%= link("Genres", to: admin_genre_path(@conn, :index), class: "popover-link", title: "Genres") %>
+                    <%= link("Genres",
+                             to: admin_genre_path(@conn, :index),
+                             class: "popover-link",
+                             title: "Genres") %>
                   </li>
 
                   <li class="popover-item">
-                    <a class="popover-link" href="#" title="Labels">Labels</a>
+                    <%= link("Labels",
+                             to: admin_label_path(@conn, :index),
+                             class: "popover-link",
+                             title: "Labels") %>
                   </li>
                 </ul>
               </div>

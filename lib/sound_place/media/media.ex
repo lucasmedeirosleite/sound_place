@@ -2,7 +2,9 @@ defmodule SoundPlace.Media do
   import Ecto.Query, warn: false
   alias SoundPlace.Repo
 
-  alias SoundPlace.Media.Genre
+  alias SoundPlace.Media.{Genre, Label}
+
+  # Genres
 
   def list_genres do
     Repo.all(Genre)
@@ -28,5 +30,33 @@ defmodule SoundPlace.Media do
 
   def change_genre(%Genre{} = genre) do
     Genre.changeset(genre, %{})
+  end
+
+  # Labels
+
+  def list_labels do
+    Repo.all(Label)
+  end
+
+  def get_label!(id), do: Repo.get!(Label, id)
+
+  def create_label(attrs \\ %{}) do
+    %Label{}
+    |> Label.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_label(%Label{} = label, attrs) do
+    label
+    |> Label.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_label(%Label{} = label) do
+    Repo.delete(label)
+  end
+
+  def change_label(%Label{} = label) do
+    Label.changeset(label, %{})
   end
 end

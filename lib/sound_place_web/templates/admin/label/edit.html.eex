@@ -1,0 +1,3 @@
+<h2>Edit label <%= "##{@label.id}"  %></h2>
+
+<%= render "form.html", Map.put(assigns, :action, admin_label_path(@conn, :update, @label)) %>
