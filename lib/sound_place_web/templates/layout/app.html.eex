@@ -41,6 +41,13 @@
                   </li>
 
                   <li class="popover-item">
+                    <%= link("Artists",
+                             to: admin_artist_path(@conn, :index),
+                             class: "popover-link",
+                             title: "Artists") %>
+                  </li>
+
+                  <li class="popover-item">
                     <%= link("Genres",
                              to: admin_genre_path(@conn, :index),
                              class: "popover-link",

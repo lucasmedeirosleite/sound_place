@@ -2,7 +2,7 @@ defmodule SoundPlace.Media do
   import Ecto.Query, warn: false
   alias SoundPlace.Repo
 
-  alias SoundPlace.Media.{Genre, Label, AlbumType}
+  alias SoundPlace.Media.{Genre, Label, AlbumType, Artist}
 
   # Genres
 
@@ -86,5 +86,33 @@ defmodule SoundPlace.Media do
 
   def change_album_type(%AlbumType{} = album_type) do
     AlbumType.changeset(album_type, %{})
+  end
+
+  # Artists
+
+  def list_artists do
+    Repo.all(Artist)
+  end
+
+  def get_artist!(id), do: Repo.get!(Artist, id)
+
+  def create_artist(attrs \\ %{}) do
+    %Artist{}
+    |> Artist.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_artist(%Artist{} = artist, attrs) do
+    artist
+    |> Artist.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_artist(%Artist{} = artist) do
+    Repo.delete(artist)
+  end
+
+  def change_artist(%Artist{} = artist) do
+    Artist.changeset(artist, %{})
   end
 end

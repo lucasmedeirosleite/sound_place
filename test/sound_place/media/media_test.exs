@@ -182,4 +182,76 @@ defmodule SoundPlace.MediaTest do
       assert %Ecto.Changeset{} = Media.change_album_type(album_type)
     end
   end
+
+  describe "artists" do
+    alias SoundPlace.Media.Artist
+
+    @valid_attrs %{facebook: "some facebook", image: "some image", instagram: "some instagram", name: "some name", spotify_id: "some spotify_id", twitter: "some twitter", website: "some website"}
+    @update_attrs %{facebook: "some updated facebook", image: "some updated image", instagram: "some updated instagram", name: "some updated name", spotify_id: "some updated spotify_id", twitter: "some updated twitter", website: "some updated website"}
+    @invalid_attrs %{facebook: nil, image: nil, instagram: nil, name: nil, spotify_id: nil, twitter: nil, website: nil}
+
+    def artist_fixture(attrs \\ %{}) do
+      {:ok, artist} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Media.create_artist()
+
+      artist
+    end
+
+    test "list_artists/0 returns all artists" do
+      artist = artist_fixture()
+      assert Media.list_artists() == [artist]
+    end
+
+    test "get_artist!/1 returns the artist with given id" do
+      artist = artist_fixture()
+      assert Media.get_artist!(artist.id) == artist
+    end
+
+    test "create_artist/1 with valid data creates a artist" do
+      assert {:ok, %Artist{} = artist} = Media.create_artist(@valid_attrs)
+      assert artist.facebook == "some facebook"
+      assert artist.image == "some image"
+      assert artist.instagram == "some instagram"
+      assert artist.name == "some name"
+      assert artist.spotify_id == "some spotify_id"
+      assert artist.twitter == "some twitter"
+      assert artist.website == "some website"
+    end
+
+    test "create_artist/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Media.create_artist(@invalid_attrs)
+    end
+
+    test "update_artist/2 with valid data updates the artist" do
+      artist = artist_fixture()
+      assert {:ok, artist} = Media.update_artist(artist, @update_attrs)
+      assert %Artist{} = artist
+      assert artist.facebook == "some updated facebook"
+      assert artist.image == "some updated image"
+      assert artist.instagram == "some updated instagram"
+      assert artist.name == "some updated name"
+      assert artist.spotify_id == "some updated spotify_id"
+      assert artist.twitter == "some updated twitter"
+      assert artist.website == "some updated website"
+    end
+
+    test "update_artist/2 with invalid data returns error changeset" do
+      artist = artist_fixture()
+      assert {:error, %Ecto.Changeset{}} = Media.update_artist(artist, @invalid_attrs)
+      assert artist == Media.get_artist!(artist.id)
+    end
+
+    test "delete_artist/1 deletes the artist" do
+      artist = artist_fixture()
+      assert {:ok, %Artist{}} = Media.delete_artist(artist)
+      assert_raise Ecto.NoResultsError, fn -> Media.get_artist!(artist.id) end
+    end
+
+    test "change_artist/1 returns a artist changeset" do
+      artist = artist_fixture()
+      assert %Ecto.Changeset{} = Media.change_artist(artist)
+    end
+  end
 end

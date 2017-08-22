@@ -1,0 +1,44 @@
+.tabs
+
+  section
+    display: none
+    padding: 20px 0 0
+    border-top: 1px solid #ddd
+
+  input[type="radio"]
+    display: none
+
+  .tab-label
+    display: inline-block
+    margin: 0 0 -1px
+    padding: 15px 25px
+    font-weight: 600
+    text-align: center
+    color: #bbb
+    border: 1px solid transparent
+
+  .tab-label:hover
+    color: #888
+    cursor: pointer
+
+  input[type="radio"]:checked + label
+    color: #555
+    border: 1px solid #ddd
+    border-top: 2px solid #9b4dca
+    border-bottom: 1px solid #fff
+
+  #tab-1:checked ~ #tab-content-1,
+  #tab-2:checked ~ #tab-content-2,
+    display: block
+
+  @media screen and (max-width: 650px)
+    .tab-label
+      font-size: 0
+
+    .tab-label:before
+      margin: 0
+      font-size: 18px
+
+  @media screen and (max-width: 400px)
+    .tab-label
+      padding: 15px

@@ -1,0 +1,79 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <fieldset>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="tabs">
+      <input id="tab-1" class="tab-toggler" type="radio" name="tabs" checked>
+      <label for="tab-1" class="tab-label">Basic data</label>
+
+      <input id="tab-2" class="tab-toggler" type="radio" name="tabs">
+      <label for="tab-2" class="tab-label">Social data</label>
+
+      <section id="tab-content-1" class="tab-content">
+
+        <div class="form-group">
+          <%= label f, :spotify_id, "Spotify ID", class: "control-label" %>
+          <%= text_input f, :spotify_id, class: "form-control" %>
+          <%= error_tag f, :spotify_id %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :youtube_id, "Youtube ID", class: "control-label" %>
+          <%= text_input f, :youtube_id, class: "form-control" %>
+          <%= error_tag f, :youtube_id %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :name, class: "control-label" %>
+          <%= text_input f, :name, class: "form-control" %>
+          <%= error_tag f, :name %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :image, class: "control-label" %>
+          <%= text_input f, :image, class: "form-control" %>
+          <%= error_tag f, :image %>
+        </div>
+
+      </section>
+
+      <section id="tab-content-2" class="tab-content">
+
+        <div class="form-group">
+          <%= label f, :website, class: "control-label" %>
+          <%= text_input f, :website, class: "form-control" %>
+          <%= error_tag f, :website %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :facebook, class: "control-label" %>
+          <%= text_input f, :facebook, class: "form-control" %>
+          <%= error_tag f, :facebook %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :instagram, class: "control-label" %>
+          <%= text_input f, :instagram, class: "form-control" %>
+          <%= error_tag f, :instagram %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :twitter, class: "control-label" %>
+          <%= text_input f, :twitter, class: "form-control" %>
+          <%= error_tag f, :twitter %>
+        </div>
+
+      </section>
+
+    </div>
+
+    <div class="form-group">
+      <%= submit "Submit", class: "button-primary" %>
+      <%= link("Back", to: admin_artist_path(@conn, :index), class: "button button-outline") %>
+    </div>
+  </fieldset>
+<% end %>

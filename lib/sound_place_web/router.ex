@@ -35,6 +35,7 @@ defmodule SoundPlaceWeb.Router do
     resources "/genres", GenreController, except: [:show]
     resources "/labels", LabelController, except: [:show]
     resources "/album_types", AlbumTypeController, except: [:show]
+    resources "/artists", ArtistController, except: [:show]
   end
 
   # Other scopes may use custom stacks.
