@@ -13,6 +13,9 @@
       <input id="tab-2" class="tab-toggler" type="radio" name="tabs">
       <label for="tab-2" class="tab-label">Social data</label>
 
+      <input id="tab-3" class="tab-toggler" type="radio" name="tabs">
+      <label for="tab-3" class="tab-label">Genres</label>
+
       <section id="tab-content-1" class="tab-content">
 
         <div class="form-group">
@@ -67,6 +70,13 @@
           <%= error_tag f, :twitter %>
         </div>
 
+      </section>
+
+      <section id="tab-content-3" class="tab-content">
+        <%= PhoenixMTM.Helpers.collection_checkboxes f, :genres,
+              Enum.map(@genres, &({&1.name, &1.id})),
+              selected: genre_selected?(f.data.genres),
+              mapper: &SoundPlaceWeb.Mappers.CheckboxMapper.bootstrap/6 %>
       </section>
 
     </div>

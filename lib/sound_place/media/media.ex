@@ -10,6 +10,11 @@ defmodule SoundPlace.Media do
     Repo.all(Genre)
   end
 
+  def list_genres(ids) do
+    query = from g in Genre, where: g.id in ^ids
+    Repo.all(query)
+  end
+
   def get_genre!(id), do: Repo.get!(Genre, id)
 
   def create_genre(attrs \\ %{}) do
@@ -91,20 +96,28 @@ defmodule SoundPlace.Media do
   # Artists
 
   def list_artists do
-    Repo.all(Artist)
+    Artist
+    |> Repo.all
+    |> Repo.preload(:genres)
   end
 
-  def get_artist!(id), do: Repo.get!(Artist, id)
+  def get_artist!(id) do
+    Artist
+    |> Repo.get!(id)
+    |> Repo.preload(:genres)
+  end
 
   def create_artist(attrs \\ %{}) do
     %Artist{}
     |> Artist.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:genres, Repo, Genre)
     |> Repo.insert()
   end
 
   def update_artist(%Artist{} = artist, attrs) do
     artist
     |> Artist.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:genres, Repo, Genre)
     |> Repo.update()
   end
 

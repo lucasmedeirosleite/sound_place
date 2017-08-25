@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     ports:
-      - '5432:5432'
+      - '5435:5432'
   app:
     build: .
     env_file:
