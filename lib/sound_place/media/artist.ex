@@ -1,7 +1,7 @@
 defmodule SoundPlace.Media.Artist do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SoundPlace.Media.{Artist, Genre}
+  alias SoundPlace.Media.{Artist, Genre, Album}
 
   schema "artists" do
     field :facebook, :string
@@ -13,6 +13,7 @@ defmodule SoundPlace.Media.Artist do
     field :website, :string
     field :youtube_id, :string
     many_to_many :genres, Genre, join_through: "artists_genres", on_replace: :delete
+    many_to_many :albums, Album, join_through: "artists_albums", on_replace: :delete
 
     timestamps()
   end

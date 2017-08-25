@@ -126,8 +126,8 @@ defmodule SoundPlace.MediaTest do
   describe "album_types" do
     alias SoundPlace.Media.AlbumType
 
-    @valid_attrs %{name: "some name"}
-    @update_attrs %{name: "some updated name"}
+    @valid_attrs %{name: "some name", acronym: "album"}
+    @update_attrs %{name: "some updated name", acronym: "ep"}
     @invalid_attrs %{name: nil}
 
     def album_type_fixture(attrs \\ %{}) do
@@ -186,7 +186,7 @@ defmodule SoundPlace.MediaTest do
   describe "artists" do
     alias SoundPlace.Media.Artist
 
-    @valid_attrs %{facebook: "some facebook", image: "some image", instagram: "some instagram", name: "some name", spotify_id: "some spotify_id", twitter: "some twitter", website: "some website"}
+    @valid_attrs %{facebook: "some facebook", image: "some image", instagram: "some instagram", name: "some name", spotify_id: "some spotify_id", twitter: "some twitter", website: "some website", genres: []}
     @update_attrs %{facebook: "some updated facebook", image: "some updated image", instagram: "some updated instagram", name: "some updated name", spotify_id: "some updated spotify_id", twitter: "some updated twitter", website: "some updated website"}
     @invalid_attrs %{facebook: nil, image: nil, instagram: nil, name: nil, spotify_id: nil, twitter: nil, website: nil}
 
@@ -252,6 +252,72 @@ defmodule SoundPlace.MediaTest do
     test "change_artist/1 returns a artist changeset" do
       artist = artist_fixture()
       assert %Ecto.Changeset{} = Media.change_artist(artist)
+    end
+  end
+
+  describe "albums" do
+    alias SoundPlace.Media.Album
+
+    @valid_attrs %{cover: "some cover", name: "some name", release_year: 42, spotify_id: "some spotify_id"}
+    @update_attrs %{cover: "some updated cover", name: "some updated name", release_year: 43, spotify_id: "some updated spotify_id"}
+    @invalid_attrs %{cover: nil, name: nil, release_year: nil, spotify_id: nil}
+
+    def album_fixture(attrs \\ %{}) do
+      {:ok, album} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Media.create_album()
+
+      album
+    end
+
+    test "list_albums/0 returns all albums" do
+      album = album_fixture()
+      assert Media.list_albums() == [album]
+    end
+
+    test "get_album!/1 returns the album with given id" do
+      album = album_fixture()
+      assert Media.get_album!(album.id) == album
+    end
+
+    test "create_album/1 with valid data creates a album" do
+      assert {:ok, %Album{} = album} = Media.create_album(@valid_attrs)
+      assert album.cover == "some cover"
+      assert album.name == "some name"
+      assert album.release_year == 42
+      assert album.spotify_id == "some spotify_id"
+    end
+
+    test "create_album/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Media.create_album(@invalid_attrs)
+    end
+
+    test "update_album/2 with valid data updates the album" do
+      album = album_fixture()
+      assert {:ok, album} = Media.update_album(album, @update_attrs)
+      assert %Album{} = album
+      assert album.cover == "some updated cover"
+      assert album.name == "some updated name"
+      assert album.release_year == 43
+      assert album.spotify_id == "some updated spotify_id"
+    end
+
+    test "update_album/2 with invalid data returns error changeset" do
+      album = album_fixture()
+      assert {:error, %Ecto.Changeset{}} = Media.update_album(album, @invalid_attrs)
+      assert album == Media.get_album!(album.id)
+    end
+
+    test "delete_album/1 deletes the album" do
+      album = album_fixture()
+      assert {:ok, %Album{}} = Media.delete_album(album)
+      assert_raise Ecto.NoResultsError, fn -> Media.get_album!(album.id) end
+    end
+
+    test "change_album/1 returns a album changeset" do
+      album = album_fixture()
+      assert %Ecto.Changeset{} = Media.change_album(album)
     end
   end
 end
