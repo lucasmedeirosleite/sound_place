@@ -144,7 +144,7 @@ defmodule SoundPlace.Media do
   def get_album!(id) do
     Album
     |> Repo.get!(id)
-    |> Repo.preload([:label, :album_type])
+    |> Repo.preload([:artists, :label, :album_type])
   end
 
   def create_album(attrs \\ %{}) do
