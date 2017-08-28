@@ -1,0 +1,4 @@
+<h3>Edia album #<%= @album.id %> of <%= @artist.name %> discography</h3>
+
+<%= render "form.html",
+    Map.put(assigns, :action, admin_artist_album_path(@conn, :update, @artist, @album)) %>

@@ -1,0 +1,38 @@
+<h3><%= "#{@artist.name} albums" %></h3>
+
+<%= link("New album",
+         to: admin_artist_album_path(@conn, :new, @artist),
+         class: "button") %>
+
+<table>
+ <thead>
+   <th>Name</th>
+   <th>Type</th>
+   <th>Released in</th>
+   <th></th>
+ </thead>
+ <tbody>
+     <%= for album <- @albums do %>
+       <tr>
+         <td><%= album.name %></td>
+         <td><%= album_type(album) %></td>
+         <td><%= album.release_year %></td>
+         <td>
+           <%= link("Edit",
+                    to: admin_artist_album_path(@conn, :edit, @artist, album),
+                    class: "button") %>
+
+           <%= link("Remove",
+                    to: admin_artist_album_path(@conn, :delete, @artist, album),
+                    class: "button button-outline",
+                    method: :delete,
+                    data: [confirm: "Are you sure?"]) %>
+         </td>
+       </tr>
+     <% end %>
+ </tbody>
+</table>
+
+<%= link("New album",
+         to: admin_artist_album_path(@conn, :new, @artist),
+         class: "button") %>

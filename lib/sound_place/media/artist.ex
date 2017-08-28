@@ -13,7 +13,7 @@ defmodule SoundPlace.Media.Artist do
     field :website, :string
     field :youtube_id, :string
     many_to_many :genres, Genre, join_through: "artists_genres", on_replace: :delete
-    many_to_many :albums, Album, join_through: "artists_albums", on_replace: :delete
+    many_to_many :albums, Album, join_through: "artists_albums", on_delete: :delete_all, on_replace: :delete
 
     timestamps()
   end

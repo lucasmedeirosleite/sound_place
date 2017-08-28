@@ -1,7 +1,7 @@
 defmodule SoundPlace.Media.Album do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SoundPlace.Media.{Album, Artist}
+  alias SoundPlace.Media.{Album, Artist, Label, AlbumType}
 
 
   schema "albums" do
@@ -9,9 +9,9 @@ defmodule SoundPlace.Media.Album do
     field :name, :string
     field :release_year, :integer
     field :spotify_id, :string
-    field :label_id, :id
-    field :album_type_id, :id
-    many_to_many :artists, Artist, join_through: "artists_albums", on_replace: :delete
+    belongs_to :label, Label
+    belongs_to :album_type, AlbumType
+    many_to_many :artists, Artist, join_through: "artists_albums", on_delete: :delete_all, on_replace: :delete
 
     timestamps()
   end
@@ -19,8 +19,8 @@ defmodule SoundPlace.Media.Album do
   @doc false
   def changeset(%Album{} = album, attrs) do
     album
-    |> cast(attrs, [:name, :spotify_id, :release_year, :cover])
-    |> validate_required([:name, :spotify_id, :release_year, :cover])
+    |> cast(attrs, [:name, :spotify_id, :release_year, :cover, :label_id, :album_type_id])
+    |> validate_required([:name, :spotify_id, :cover])
     |> unique_constraint(:spotify_id)
   end
 end

@@ -125,21 +125,39 @@ defmodule SoundPlace.Media do
   end
 
   # Albums
+
   def list_albums do
-    Repo.all(Album)
+    Album
+    |> Repo.all()
+    |> Repo.preload(:artists)
   end
 
-  def get_album!(id), do: Repo.get!(Album, id)
+  def list_albums(artist_id: artist_id) do
+    query = from album in Album,
+            inner_join: artist in assoc(album, :artists),
+            where: artist.id == ^artist_id,
+            preload: [:label, :album_type]
+
+    Repo.all(query)
+  end
+
+  def get_album!(id) do
+    Album
+    |> Repo.get!(id)
+    |> Repo.preload([:label, :album_type])
+  end
 
   def create_album(attrs \\ %{}) do
     %Album{}
     |> Album.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:artists, Repo, Artist)
     |> Repo.insert()
   end
 
   def update_album(%Album{} = album, attrs) do
     album
     |> Album.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:artists, Repo, Artist)
     |> Repo.update()
   end
 

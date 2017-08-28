@@ -16,13 +16,17 @@
         <td><%= artist.youtube_id %></td>
         <td><%= artist.name %></td>
         <td>
+          <%= link("Albums",
+                   to: admin_artist_album_path(@conn, :index, artist),
+                   class: "button button-small") %>
+
           <%= link("Edit",
                    to: admin_artist_path(@conn, :edit, artist),
-                   class: "button") %>
+                   class: "button button-small button-outline") %>
 
           <%= link("Remove",
                    to: admin_artist_path(@conn, :delete, artist),
-                   class: "button button-outline",
+                   class: "button button-small",
                    method: :delete,
                    data: [confirm: "Are you sure?"]) %>
         </td>

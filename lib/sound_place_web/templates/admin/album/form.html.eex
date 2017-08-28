@@ -1,0 +1,81 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <fieldset>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="tabs">
+      <input id="tab-1" class="tab-toggler" type="radio" name="tabs" checked>
+      <label for="tab-1" class="tab-label">Basic data</label>
+
+      <input id="tab-2" class="tab-toggler" type="radio" name="tabs">
+      <label for="tab-2" class="tab-label">Music data</label>
+
+      <input id="tab-3" class="tab-toggler" type="radio" name="tabs">
+      <label for="tab-3" class="tab-label">Genres</label>
+
+      <section id="tab-content-1" class="tab-content">
+
+        <div class="form-group">
+          <%= label f, :spotify_id, "Spotify ID", class: "control-label" %>
+          <%= text_input f, :spotify_id, class: "form-control" %>
+          <%= error_tag f, :spotify_id %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :name, class: "control-label" %>
+          <%= text_input f, :name, class: "form-control" %>
+          <%= error_tag f, :name %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :cover, class: "control-label" %>
+          <%= text_input f, :cover, class: "form-control" %>
+          <%= error_tag f, :cover %>
+        </div>
+
+      </section>
+
+      <section id="tab-content-2" class="tab-content">
+
+        <div class="form-group">
+          <%= label f, :release_year, class: "control-label" %>
+          <%= number_input f, :release_year, class: "form-control" %>
+          <%= error_tag f, :release_year %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :label_id, class: "control-label" %>
+          <%= select f,
+                     :label_id,
+                     collection_data(@labels),
+                     prompt: "Choose a label...",
+                     class: "form-control" %>
+          <%= error_tag f, :label_id %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :album_type_id, class: "control-label" %>
+          <%= select f,
+                     :album_type_id,
+                     collection_data(@album_types),
+                     prompt: "Choose an album type...",
+                     class: "form-control" %>
+          <%= error_tag f, :album_type_id %>
+        </div>
+
+      </section>
+
+      <section id="tab-content-3" class="tab-content">
+      </section>
+
+    </div>
+
+    <div class="form-group">
+      <%= submit "Submit", class: "button-primary" %>
+      <%= link("Back", to: admin_artist_album_path(@conn, :index, @artist), class: "button button-outline") %>
+    </div>
+  </fieldset>
+<% end %>
