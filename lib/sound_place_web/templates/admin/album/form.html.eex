@@ -69,6 +69,11 @@
       </section>
 
       <section id="tab-content-3" class="tab-content">
+        <%= PhoenixMTM.Helpers.collection_checkboxes f,
+              :genres,
+              genres_representation(@genres),
+              selected: genre_selected?(f.data.genres),
+              mapper: &SoundPlaceWeb.Mappers.CheckboxMapper.bootstrap/6 %>
       </section>
 
     </div>

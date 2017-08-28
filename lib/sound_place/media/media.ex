@@ -91,9 +91,7 @@ defmodule SoundPlace.Media do
   # Artists
 
   def list_artists do
-    Artist
-    |> Repo.all
-    |> Repo.preload(:genres)
+    Repo.all(Artist)
   end
 
   def get_artist!(id) do
@@ -144,13 +142,14 @@ defmodule SoundPlace.Media do
   def get_album!(id) do
     Album
     |> Repo.get!(id)
-    |> Repo.preload([:artists, :label, :album_type])
+    |> Repo.preload([:artists, :genres, :label, :album_type])
   end
 
   def create_album(attrs \\ %{}) do
     %Album{}
     |> Album.changeset(attrs)
     |> PhoenixMTM.Changeset.cast_collection(:artists, Repo, Artist)
+    |> PhoenixMTM.Changeset.cast_collection(:genres, Repo, Genre)
     |> Repo.insert()
   end
 
@@ -158,6 +157,7 @@ defmodule SoundPlace.Media do
     album
     |> Album.changeset(attrs)
     |> PhoenixMTM.Changeset.cast_collection(:artists, Repo, Artist)
+    |> PhoenixMTM.Changeset.cast_collection(:genres, Repo, Genre)
     |> Repo.update()
   end
 
