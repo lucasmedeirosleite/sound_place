@@ -4,6 +4,10 @@
          to: admin_artist_album_path(@conn, :new, @artist),
          class: "button") %>
 
+<%= link("Back",
+         to: admin_artist_path(@conn, :index),
+         class: "button button-outline") %>
+
 <table>
  <thead>
    <th>Name</th>
@@ -18,13 +22,17 @@
          <td><%= album_type(album) %></td>
          <td><%= album.release_year %></td>
          <td>
+           <%= link("Tracks",
+                    to: admin_artist_album_track_path(@conn, :index, @artist, album),
+                    class: "button button-small") %>
+
            <%= link("Edit",
                     to: admin_artist_album_path(@conn, :edit, @artist, album),
-                    class: "button") %>
+                    class: "button button-outline button-small") %>
 
            <%= link("Remove",
                     to: admin_artist_album_path(@conn, :delete, @artist, album),
-                    class: "button button-outline",
+                    class: "button button-small",
                     method: :delete,
                     data: [confirm: "Are you sure?"]) %>
          </td>
@@ -36,3 +44,7 @@
 <%= link("New album",
          to: admin_artist_album_path(@conn, :new, @artist),
          class: "button") %>
+
+<%= link("Back",
+         to: admin_artist_path(@conn, :index),
+         class: "button button-outline") %>

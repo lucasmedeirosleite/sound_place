@@ -1,8 +1,9 @@
 defmodule SoundPlace.Media do
   import Ecto.Query, warn: false
-  alias SoundPlace.Repo
+  alias Ecto.Changeset
 
-  alias SoundPlace.Media.{Genre, Label, AlbumType, Artist, Album}
+  alias SoundPlace.Repo
+  alias SoundPlace.Media.{Genre, Label, AlbumType, Artist, Album, Track, Song}
 
   # Genres
 
@@ -167,5 +168,53 @@ defmodule SoundPlace.Media do
 
   def change_album(%Album{} = album) do
     Album.changeset(album, %{})
+  end
+
+  # Tracks
+
+  def list_tracks(album_id: album_id) do
+    query = from track in Track,
+            inner_join: album in assoc(track, :album),
+            where: album.id == ^album_id,
+            preload: [:song]
+
+    Repo.all(query)
+  end
+
+  def get_track!(id) do
+    Track
+    |> Repo.get!(id)
+    |> Repo.preload([song: :genres])
+  end
+
+  def create_track(attrs \\ %{}) do
+    %Track{}
+    |> Track.changeset(attrs)
+    |> Changeset.cast_assoc(:song, with: &SoundPlace.Media.change_song/2)
+    |> Repo.insert()
+  end
+
+  def update_track(%Track{} = track, attrs) do
+    track
+    |> Track.changeset(attrs)
+    |> Changeset.cast_assoc(:song, with: &SoundPlace.Media.change_song/2)
+    |> Repo.update()
+  end
+
+  def delete_track(%Track{} = track) do
+    Repo.transaction(fn ->
+      Repo.delete(track)
+      Repo.delete(track.song)
+    end)
+  end
+
+  def change_track(%Track{} = track) do
+    Track.changeset(track, %{})
+  end
+
+  def change_song(%Song{} = song, attrs) do
+    song
+    |> Song.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:genres, Repo, Genre)
   end
 end

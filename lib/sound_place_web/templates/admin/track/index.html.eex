@@ -1,0 +1,47 @@
+<h3><%= @album.name %> tracks</h3>
+
+<%= link("Add track",
+         to: admin_artist_album_track_path(@conn, :new, @artist, @album),
+         class: "button") %>
+
+<%= link("Back",
+         to: admin_artist_album_path(@conn, :index, @artist),
+         class: "button button-outline") %>
+
+<table>
+  <thead>
+    <th>Track number</th>
+    <th>Name</th>
+    <th>Explicit?</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <%= for track <- @tracks do %>
+      <tr>
+        <td><%= track.sequence %></td>
+        <td><%= track.song.name %></td>
+        <td><%= track.song.explicit %></td>
+        <td>
+          <%= link("Edit",
+                   to: admin_artist_album_track_path(@conn, :edit, @artist, @album, track),
+                   class: "button button-small") %>
+
+          <%= link("Remove",
+                   to: admin_artist_album_track_path(@conn, :delete, @artist, @album, track),
+                   class: "button button-small button-outline",
+                   method: :delete,
+                   data: [confirm: "Are you sure?"]) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link("Add track",
+         to: admin_artist_album_track_path(@conn, :new, @artist, @album),
+         class: "button") %>
+
+<%= link("Back",
+         to: admin_artist_album_path(@conn, :index, @artist),
+         class: "button button-outline") %>

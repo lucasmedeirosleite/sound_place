@@ -1,0 +1,4 @@
+<h3>Edit track <%= @track.sequence %> of <%= @album.name %></h3>
+
+<%= render "form.html",
+    Map.put(assigns, :action, admin_artist_album_track_path(@conn, :update, @artist, @album, @track)) %>

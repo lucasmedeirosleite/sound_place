@@ -36,7 +36,10 @@ defmodule SoundPlaceWeb.Router do
     resources "/labels", LabelController, except: [:show]
     resources "/album_types", AlbumTypeController, except: [:show]
     resources "/artists", ArtistController, except: [:show] do
-      resources "/albums", AlbumController, except: [:show]
+      resources "/albums", AlbumController, except: [:show] do
+        resources "/tracks", TrackController, except: [:show] do
+        end
+      end
     end
   end
 

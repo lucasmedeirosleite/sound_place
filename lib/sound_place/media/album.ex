@@ -1,8 +1,7 @@
 defmodule SoundPlace.Media.Album do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SoundPlace.Media.{Album, Artist, Label, AlbumType, Genre}
-
+  alias SoundPlace.Media.{Album, Artist, Label, AlbumType, Genre, Track}
 
   schema "albums" do
     field :cover, :string
@@ -11,6 +10,7 @@ defmodule SoundPlace.Media.Album do
     field :spotify_id, :string
     belongs_to :label, Label
     belongs_to :album_type, AlbumType
+    has_many :tracks, Track, on_delete: :delete_all
     many_to_many :genres, Genre, join_through: "albums_genres", on_delete: :delete_all, on_replace: :delete
     many_to_many :artists, Artist, join_through: "artists_albums", on_delete: :delete_all, on_replace: :delete
 
