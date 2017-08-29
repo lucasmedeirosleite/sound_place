@@ -24,6 +24,12 @@
           </div>
 
           <div class="form-group">
+            <%= label sf, :video_id, "Video ID", class: "control-label" %>
+            <%= text_input sf, :video_id, class: "form-control" %>
+            <%= error_tag sf, :video_id %>
+          </div>
+
+          <div class="form-group">
             <%= label sf, :name, class: "control-label" %>
             <%= text_input sf, :name, class: "form-control" %>
             <%= error_tag sf, :name %>
