@@ -24,6 +24,10 @@ defmodule SoundPlaceWeb.Router do
     pipe_through :browser
 
     get "/", HomeController, :index
+
+    get "/auth/spotify", AuthController, :spotify
+    get "/auth/spotify/callback", AuthController, :callback
+
     resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 

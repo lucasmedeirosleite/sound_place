@@ -40,6 +40,7 @@ defmodule SoundPlace.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_mtm, "~> 0.5.1"},
+      {:spotify_ex, git: "https://github.com/lucasmedeirosleite/spotify_ex.git", branch: "master"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},

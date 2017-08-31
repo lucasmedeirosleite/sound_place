@@ -1,6 +1,9 @@
 use Mix.Config
 
 config :sound_place,
+       web_app_url: System.get_env("SOUND_PLACE_WEB_APP")
+
+config :sound_place,
        ecto_repos: [SoundPlace.Repo]
 
 config :sound_place,
@@ -22,5 +25,8 @@ config :guardian,
        serializer: SoundPlaceWeb.GuardianSerializer
 
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
+
+import_config "spotify.exs"
+import_config "spotify.secret.exs"
 
 import_config "#{Mix.env}.exs"
