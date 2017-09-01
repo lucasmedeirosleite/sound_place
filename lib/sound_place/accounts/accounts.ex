@@ -1,8 +1,9 @@
 defmodule SoundPlace.Accounts do
   import Ecto.Query, warn: false
-  alias SoundPlace.Repo
+  alias Ecto.Changeset
 
-  alias SoundPlace.Accounts.User
+  alias SoundPlace.Repo
+  alias SoundPlace.Accounts.{User, SpotifyCredential}
 
   def list_users do
     Repo.all(User)
@@ -13,6 +14,7 @@ defmodule SoundPlace.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> Changeset.cast_assoc(:spotify_credential, with: &SpotifyCredential.changeset/2)
     |> Repo.insert()
   end
 

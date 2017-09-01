@@ -1,12 +1,13 @@
 defmodule SoundPlace.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SoundPlace.Accounts.User
+  alias SoundPlace.Accounts.{User, SpotifyCredential}
 
   schema "accounts_users" do
     field :email, :string
     field :image, :string
     field :name, :string
+    has_one :spotify_credential, SpotifyCredential
 
     timestamps()
   end

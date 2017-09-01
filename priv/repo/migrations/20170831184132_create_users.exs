@@ -5,7 +5,7 @@ defmodule SoundPlace.Repo.Migrations.CreateUsers do
     create table(:accounts_users) do
       add :name, :string
       add :email, :string
-      add :image, :string
+      add :image, :text
 
       timestamps()
     end
