@@ -33,4 +33,13 @@ defmodule SoundPlaceWeb.SpotifyBridge do
 
     {:ok, params}
   end
+
+  def user_params(conn) do
+    with {:ok, credentials} <- credentials(conn),
+         {:ok, profile} <- profile(conn) do
+      profile_map(profile, credentials)     
+    else _ ->
+      {:error, :invalid_user_params}
+    end
+  end
 end

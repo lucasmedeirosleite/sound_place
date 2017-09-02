@@ -1,29 +1,32 @@
 defmodule SoundPlaceWeb.AuthController do
   use SoundPlaceWeb, :controller
 
+  alias SoundPlaceWeb.APIAuthenticator
   alias SoundPlaceWeb.SpotifyBridge
   alias SoundPlace.Accounts
+
+  @callback_url Application.get_env(:sound_place, :web_app_url)
 
   def spotify(conn, _params) do
     redirect(conn, external: SpotifyBridge.authorization_url)
   end
 
   def callback(conn, params) do
-    url = Application.get_env(:sound_place, :web_app_url)
+    with {:ok, spotify_conn} <- SpotifyBridge.authenticate(conn, params),
+         {:ok, user_params} <- SpotifyBridge.user_params(spotify_conn),
+         {:ok, user} <- Accounts.save_user(user_params),
+         {:ok, sound_place_conn, credentials} <- APIAuthenticator.authenticate(spotify_conn, user) do
 
-    with {:ok, conn} <- SpotifyBridge.authenticate(conn, params),
-         {:ok, credentials} <- SpotifyBridge.credentials(conn),
-         {:ok, profile} <- SpotifyBridge.profile(conn),
-         {:ok, profile_params} <- SpotifyBridge.profile_map(profile, credentials),
-         {:ok, user} <- Accounts.create_user(profile_params) do
-
-      IO.puts "******** USER: #{inspect(user)}"
-
-      url = "#{url}?success=true&access_token=#{user.spotify_credential.access_token}"
-      redirect(conn, external: url)
-    else _ ->
-      url = "#{url}?success=false"
-      redirect(conn, external: url)
+      sound_place_conn
+      |> put_resp_header("authorization", "Bearer #{credentials.token}")
+      |> put_resp_header("x-expires", "#{credentials.exp}")
+      |> redirect(external: credentials.callback_url)
+    else
+      {:error, error_conn, _, url} ->
+        redirect(error_conn, external: url)
+      _ ->
+        url = "#{@callback_url}?success=false"
+        redirect(conn, external: url)
     end
   end
 end
