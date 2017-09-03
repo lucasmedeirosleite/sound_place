@@ -1,4 +1,4 @@
-defmodule SoundPlace.Repo.Migrations.CreateUsers do
+defmodule SoundPlace.Repo.Migrations.CreateAccountUsers do
   use Ecto.Migration
 
   def change do
