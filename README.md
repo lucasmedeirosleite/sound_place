@@ -1,6 +1,6 @@
 # Sound Place
 
-A phoenix application to handle a user library of songs and videos retrieved from Spotify and Youtube.
+An application to handle a user library of songs and videos retrieved from Spotify and Youtube.
 
 ## Prerequisites
 
