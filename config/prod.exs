@@ -2,9 +2,19 @@ use Mix.Config
 
 config :sound_place,
        SoundPlaceWeb.Endpoint,
+       http: [port: {:system, "PORT"}],
+       url: [scheme: "https", host: "boiling-plateau-96706.herokuapp.com", port: 443],
+       force_ssl: [rewrite_on: [:x_forwarded_proto]],
+       cache_static_manifest: "priv/static/cache_manifest.json",
        load_from_system_env: true,
-       url: [host: "example.com", port: 80],
-       cache_static_manifest: "priv/static/cache_manifest.json"
+       secret_key_base: System.get_env("SECRET_KEY_BASE")
+
+config :sound_place,
+       SoundPlace.Repo,
+       adapter: Ecto.Adapters.Postgres,
+       url: System.get_env("DATABASE_URL"),
+       pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+       ssl: true
 
 config :logger, level: :info
 
@@ -45,5 +55,3 @@ config :logger, level: :info
 #
 #     config :sound_place, SoundPlaceWeb.Endpoint, server: true
 #
-
-import_config "prod.secret.exs"
