@@ -1,4 +1,4 @@
-defmodule SoundPlaceWeb.SpotifyBridge do
+defmodule SoundPlace.Provider.SpotifyProvider do
   alias Spotify.{Authentication, Authorization, Credentials, Profile}
 
   def authorization_url do
@@ -37,7 +37,7 @@ defmodule SoundPlaceWeb.SpotifyBridge do
   def user_params(conn) do
     with {:ok, credentials} <- credentials(conn),
          {:ok, profile} <- profile(conn) do
-      profile_map(profile, credentials)     
+      profile_map(profile, credentials)
     else _ ->
       {:error, :invalid_user_params}
     end

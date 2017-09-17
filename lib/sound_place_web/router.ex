@@ -20,10 +20,10 @@ defmodule SoundPlaceWeb.Router do
     plug SoundPlaceWeb.CurrentUser
   end
 
-  pipeline :api_session do  
-  plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-  plug Guardian.Plug.LoadResource
-end
+  pipeline :api_session do
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
+  end
 
   scope "/", SoundPlaceWeb do
     pipe_through :browser
@@ -34,6 +34,12 @@ end
     get "/auth/spotify/callback", AuthController, :callback
 
     resources "/admin/sessions", SessionController, only: [:new, :create, :delete], singleton: true
+  end
+
+  scope "/api", SoundPlaceWeb.API, as: :api do
+    pipe_through [:api, :api_session]
+
+    get "/me/playlists", UserController, :playlists
   end
 
   scope "/admin", SoundPlaceWeb.Admin, as: :admin do
