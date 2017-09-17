@@ -3,14 +3,6 @@ defmodule SoundPlaceWeb.API.UserView do
   alias SoundPlaceWeb.API.UserView
 
   def render("playlists.json", %{playlists: playlists}) do
-    %{data: render_many(playlists, UserView, "playlist.json")}
-  end
-
-  def render("playlist.json", playlist) do
-    %{
-      id: playlist.id,
-      name: playlist.name,
-      cover: playlist.cover
-    }
+    %{data: playlists}
   end
 end
