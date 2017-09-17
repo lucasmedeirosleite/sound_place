@@ -45,7 +45,8 @@ defmodule SoundPlace.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12.1"},
-      {:guardian, "~> 0.14.5"}
+      {:guardian, "~> 0.14.5"},
+      {:cors_plug, "~> 1.4"}
     ]
   end
 
