@@ -20,7 +20,7 @@ defmodule SoundPlace.Mixfile do
   def application do
     [
       mod: {SoundPlace.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :corsica]
     ]
   end
 
@@ -46,7 +46,7 @@ defmodule SoundPlace.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12.1"},
       {:guardian, "~> 0.14.5"},
-      {:cors_plug, "~> 1.4"}
+      {:corsica, "~> 1.0"}
     ]
   end
 

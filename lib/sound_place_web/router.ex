@@ -10,7 +10,7 @@ defmodule SoundPlaceWeb.Router do
   end
 
   pipeline :api do
-    plug CORSPlug, origin: ["*"]
+    plug Corsica, origins: "*", allow_methods: ["HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     plug :accepts, ["json"]
   end
 
