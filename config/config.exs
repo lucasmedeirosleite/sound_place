@@ -3,6 +3,8 @@ use Mix.Config
 config :sound_place,
        web_app_url: System.get_env("SOUND_PLACE_WEB_APP")
 
+config :cors_plug, origin: String.split(System.get_env("ALLOWED_ORIGINS"), ",")
+
 config :sound_place,
        ecto_repos: [SoundPlace.Repo]
 

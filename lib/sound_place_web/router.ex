@@ -10,7 +10,6 @@ defmodule SoundPlaceWeb.Router do
   end
 
   pipeline :api do
-    plug Corsica, origins: "*", allow_methods: ["HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     plug :accepts, ["json"]
   end
 
@@ -37,12 +36,6 @@ defmodule SoundPlaceWeb.Router do
     resources "/admin/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 
-  scope "/api", SoundPlaceWeb.API, as: :api do
-    pipe_through [:api, :api_session]
-
-    get "/me/playlists", UserController, :playlists
-  end
-
   scope "/admin", SoundPlaceWeb.Admin, as: :admin do
     pipe_through [:browser, :admin_session]
 
@@ -59,8 +52,9 @@ defmodule SoundPlaceWeb.Router do
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", SoundPlaceWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", SoundPlaceWeb.API, as: :api do
+    pipe_through [:api, :api_session]
+
+    get "/me/playlists", UserController, :playlists
+  end
 end

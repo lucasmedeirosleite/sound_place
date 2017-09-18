@@ -38,6 +38,7 @@ defmodule SoundPlaceWeb.Endpoint do
     key: "_sound_place_key",
     signing_salt: "4hd+IhCQ"
 
+  plug CORSPlug
   plug SoundPlaceWeb.Router
 
   @doc """
