@@ -1,5 +1,5 @@
 defmodule SoundPlace.Provider.SpotifyProvider do
-  alias Spotify.{Authentication, Authorization, Credentials, Profile}
+  alias Spotify.{Authentication, Authorization, Credentials, Profile, Playlist}
 
   def authorization_url do
     Authorization.url
@@ -41,5 +41,10 @@ defmodule SoundPlace.Provider.SpotifyProvider do
     else _ ->
       {:error, :invalid_user_params}
     end
+  end
+
+  def playlists(credentials, user_id, params) do
+    credentials = Credentials.new(credentials.access_token, credentials.refresh_token)
+    Playlist.get_users_playlists(credentials, user_id, params)
   end
 end

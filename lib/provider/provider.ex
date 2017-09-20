@@ -13,4 +13,8 @@ defmodule SoundPlace.Provider do
   def profile_map(profile, credentials), do: SpotifyProvider.profile_map(profile, credentials)
 
   def user_params(conn), do: SpotifyProvider.user_params(conn)
+
+  def playlists(credentials, user_id, params \\ []) do
+    SpotifyProvider.playlists(credentials, user_id, params)
+  end
 end

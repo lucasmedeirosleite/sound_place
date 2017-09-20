@@ -5,9 +5,7 @@ defmodule SoundPlaceWeb.APIAuthenticator do
 
   alias SoundPlaceWeb.APIAuthenticator.Credentials
 
-  @default_callback_url Application.get_env(:sound_place, :web_app_url)
-
-  def authenticate(conn, user, url \\ @default_callback_url) do
+  def authenticate(conn, user, url \\ Application.get_env(:sound_place, :web_app_url)) do
     new_conn = Guardian.Plug.api_sign_in(conn, user)
 
     case Guardian.Plug.current_token(new_conn) do

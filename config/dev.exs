@@ -27,8 +27,8 @@ config :phoenix, :stacktrace_depth, 20
 config :sound_place,
        SoundPlace.Repo,
        adapter: Ecto.Adapters.Postgres,
-       username: "postgres",
-       password: "postgres",
+       username: System.get_env("SOUND_PLACE_DB_USERNAME"),
+       password: System.get_env("SOUND_PLACE_DB_PASSWORD"),
        database: "sound_place_dev",
-       hostname: "db",
+       hostname: System.get_env("SOUND_PLACE_DB_HOST"),
        pool_size: 10

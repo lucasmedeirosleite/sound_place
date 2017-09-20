@@ -5,7 +5,7 @@ defmodule SoundPlaceWeb.AuthController do
   alias SoundPlace.Provider
   alias SoundPlace.Accounts
 
-  @callback_url Application.get_env(:sound_place, :web_app_url)
+  action_fallback SoundPlaceWeb.Fallback.AuthController
 
   def spotify(conn, _params) do
     redirect(conn, external: Provider.authorization_url)
@@ -21,12 +21,6 @@ defmodule SoundPlaceWeb.AuthController do
       |> put_resp_header("authorization", "Bearer #{credentials.token}")
       |> put_resp_header("x-expires", "#{credentials.exp}")
       |> redirect(external: credentials.callback_url)
-    else
-      {:error, error_conn, _, url} ->
-        redirect(error_conn, external: url)
-      _ ->
-        url = "#{@callback_url}?success=false"
-        redirect(conn, external: url)
     end
   end
 end

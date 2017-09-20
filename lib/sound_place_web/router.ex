@@ -9,15 +9,15 @@ defmodule SoundPlaceWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   pipeline :admin_session do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.EnsureAuthenticated, handler: SoundPlaceWeb.SessionController
     plug Guardian.Plug.LoadResource
     plug SoundPlaceWeb.CurrentUser
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
   end
 
   pipeline :api_session do
@@ -56,5 +56,6 @@ defmodule SoundPlaceWeb.Router do
     pipe_through [:api, :api_session]
 
     get "/me/playlists", UserController, :playlists
+    get "/me/import", UserController, :import
   end
 end
