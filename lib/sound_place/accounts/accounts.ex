@@ -56,4 +56,17 @@ defmodule SoundPlace.Accounts do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  def get_credentials(spotify_id: spotify_id) do
+    query = from credential in SpotifyCredential,
+            where: credential.spotify_id == ^spotify_id
+    
+    Repo.one(query)        
+  end
+
+  def update_credential(%SpotifyCredential{} = credential, attrs, _provider \\ :spotify) do
+    credential
+    |> SpotifyCredential.changeset(attrs)
+    |> Repo.update()
+  end
 end

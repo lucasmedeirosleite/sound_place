@@ -9,7 +9,7 @@ defmodule SoundPlace.Library do
     Repo.all(Playlist)
   end
 
-  def list_playlists(user_id) do
+  def list_playlists(user_id: user_id) do
     query = from playlist in Playlist,
             where: playlist.user_id == ^user_id
     
@@ -18,10 +18,22 @@ defmodule SoundPlace.Library do
 
   def get_playlist!(id), do: Repo.get!(Playlist, id)
 
-  def create_playlists(playlists \\ []) do
+  def get_playlist(spotify_id: spotify_id) do
+    query = from playlist in Playlist,
+            where: playlist.spotify_id == ^spotify_id
+    
+    Repo.one(query)
+  end
+
+  def save_playlists(playlists \\ []) do
     Repo.transaction(fn ->
-      Enum.map(playlists, &create_playlist/1)
-    end)
+      Enum.map(playlists, fn(playlist_map) ->
+        case get_playlist(spotify_id: playlist_map.spotify_id) do
+          nil -> create_playlist(playlist_map)
+          playlist -> update_playlist(playlist, playlist_map)
+        end
+      end)
+    end) 
   end
 
   def create_playlist(attrs \\ %{}) do

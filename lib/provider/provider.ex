@@ -1,4 +1,5 @@
 defmodule SoundPlace.Provider do
+  alias SoundPlace.Accounts
   alias SoundPlace.Provider.SpotifyProvider
 
   def authorization_url, do: SpotifyProvider.authorization_url
@@ -14,7 +15,21 @@ defmodule SoundPlace.Provider do
 
   def user_params(conn), do: SpotifyProvider.user_params(conn)
 
-  def playlists(credentials, user_id, params \\ []) do
-    SpotifyProvider.playlists(credentials, user_id, params)
+  def playlists(cred, params \\ [limit: 50]) do
+    with {:ok, playlists} <- SpotifyProvider.playlists(cred, cred.spotify_id, params) do
+      {:ok, playlists}
+    else {:error, :expired_token} ->
+      refreshed_credentials = refresh_token(cred)
+      playlists(refreshed_credentials)
+    end
+  end
+
+  defp refresh_token(cred) do
+    with {:ok, new_token} <- SpotifyProvider.refresh_token(cred),
+         {:ok, new_cred} <- Accounts.update_credential(cred, %{access_token: new_token}) do
+      new_cred
+    else {:error, _} ->
+      raise "Unable to refresh user access token"
+    end
   end
 end

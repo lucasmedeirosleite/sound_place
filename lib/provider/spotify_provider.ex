@@ -1,4 +1,5 @@
 defmodule SoundPlace.Provider.SpotifyProvider do
+  alias SoundPlace.Accounts.SpotifyCredential
   alias Spotify.{Authentication, Authorization, Credentials, Profile, Playlist}
 
   def authorization_url do
@@ -45,6 +46,25 @@ defmodule SoundPlace.Provider.SpotifyProvider do
 
   def playlists(credentials, user_id, params) do
     credentials = Credentials.new(credentials.access_token, credentials.refresh_token)
-    Playlist.get_users_playlists(credentials, user_id, params)
+    case Playlist.get_users_playlists(credentials, user_id, params) do
+      {:ok, %{"error" => %{"status" => 401, "message" => "The access token expired"}}} ->
+        {:error, :expired_token}
+      {:ok, playlists} ->
+        {:ok, playlists}
+    end
+  end
+
+  def refresh_token(credentials) do
+    spotify_credentials = %Credentials{
+      access_token: credentials.access_token, 
+      refresh_token: credentials.refresh_token
+    }
+
+    case Authentication.refresh(spotify_credentials) do
+      {:ok, new_credentials} ->
+        {:ok, new_credentials.access_token}
+      _ ->
+        {:error, :failed_to_refresh_token}
+    end
   end
 end
