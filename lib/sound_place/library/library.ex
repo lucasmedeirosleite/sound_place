@@ -1,9 +1,10 @@
 defmodule SoundPlace.Library do
   import Ecto.Query, warn: false
-  # alias Ecto.Changeset
 
   alias SoundPlace.Repo
   alias SoundPlace.Library.Playlist
+
+  alias SoundPlace.Extensions.Parallel
 
   def list_playlists do
     Repo.all(Playlist)
@@ -27,13 +28,17 @@ defmodule SoundPlace.Library do
 
   def save_playlists(playlists \\ []) do
     Repo.transaction(fn ->
-      Enum.map(playlists, fn(playlist_map) ->
-        case get_playlist(spotify_id: playlist_map.spotify_id) do
-          nil -> create_playlist(playlist_map)
-          playlist -> update_playlist(playlist, playlist_map)
-        end
-      end)
+      playlists
+      |> Parallel.pmap(&save_playlist/1)  
+      |> Parallel.pmap(fn({:ok, playlist}) -> playlist end)
     end) 
+  end
+
+  def save_playlist(attrs \\ %{}) do
+    case get_playlist(spotify_id: attrs.spotify_id) do
+      nil -> create_playlist(attrs)
+      playlist -> update_playlist(playlist, attrs)
+    end
   end
 
   def create_playlist(attrs \\ %{}) do

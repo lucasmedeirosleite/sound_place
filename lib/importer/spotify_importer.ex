@@ -1,8 +1,10 @@
 defmodule SoundPlace.Importer.SpotifyImporter do
+  alias SoundPlace.Extensions.Parallel
+
   def import_playlists(user, %{items: data}) do
-    {:ok, playlists} = Enum.map(data, &transform(user, &1)) |> SoundPlace.Library.save_playlists
-    
-    {:ok, Enum.map(playlists, fn({:ok, playlist}) -> playlist end)}
+    data
+    |> Parallel.pmap(&transform(user, &1)) 
+    |> SoundPlace.Library.save_playlists
   end
 
   defp transform(user, playlist) do
