@@ -1,5 +1,4 @@
 defmodule SoundPlace.Provider.SpotifyProvider do
-  alias SoundPlace.Accounts.SpotifyCredential
   alias Spotify.{Authentication, Authorization, Credentials, Profile, Playlist}
 
   def authorization_url do

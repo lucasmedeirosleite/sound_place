@@ -55,6 +55,7 @@ defmodule SoundPlaceWeb.Router do
   scope "/api", SoundPlaceWeb.API, as: :api do
     pipe_through [:api, :api_session]
 
+    get "/me", UserController, :me
     get "/me/playlists", UserController, :playlists
     post "/me/import", UserController, :import
   end

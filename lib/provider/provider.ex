@@ -15,7 +15,7 @@ defmodule SoundPlace.Provider do
 
   def user_params(conn), do: SpotifyProvider.user_params(conn)
 
-  def playlists(cred, params \\ [limit: 50]) do
+  def playlists(cred, params \\ [fields: "items(id, name, images)", limit: 20]) do
     with {:ok, playlists} <- SpotifyProvider.playlists(cred, cred.spotify_id, params) do
       {:ok, playlists}
     else {:error, :expired_token} ->
@@ -24,7 +24,7 @@ defmodule SoundPlace.Provider do
     end
   end
 
-  defp refresh_token(cred) do
+  def refresh_token(cred) do
     with {:ok, new_token} <- SpotifyProvider.refresh_token(cred),
          {:ok, new_cred} <- Accounts.update_credential(cred, %{access_token: new_token}) do
       new_cred
