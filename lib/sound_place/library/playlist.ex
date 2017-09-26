@@ -18,7 +18,7 @@ defmodule SoundPlace.Library.Playlist do
   def changeset(%Playlist{} = playlist, attrs) do
     playlist
     |> cast(attrs, [:spotify_id, :name, :cover, :user_id])
-    |> validate_required([:spotify_id, :name, :cover])
+    |> validate_required([:spotify_id, :name])
     |> unique_constraint(:spotify_id)
   end
 end

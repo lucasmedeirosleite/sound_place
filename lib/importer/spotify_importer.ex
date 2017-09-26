@@ -1,7 +1,7 @@
 defmodule SoundPlace.Importer.SpotifyImporter do
   alias SoundPlace.Extensions.Parallel
 
-  def import_playlists(user, %{items: data}) do
+  def import_playlists(user, data) do
     data
     |> Parallel.pmap(&transform(user, &1)) 
     |> SoundPlace.Library.save_playlists
