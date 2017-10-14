@@ -2,6 +2,7 @@ defmodule SoundPlace.Library.Playlist do
   use Ecto.Schema
   import Ecto.Changeset
   alias SoundPlace.Library.Playlist
+  alias SoundPlace.Media.Track
   alias SoundPlace.Accounts.User
 
 
@@ -10,6 +11,7 @@ defmodule SoundPlace.Library.Playlist do
     field :name, :string
     field :spotify_id, :string
     belongs_to :user, User
+    many_to_many :tracks, Track, join_through: "library_playlists_tracks", on_delete: :delete_all, on_replace: :delete
 
     timestamps()
   end

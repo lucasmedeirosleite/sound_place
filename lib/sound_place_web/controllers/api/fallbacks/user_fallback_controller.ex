@@ -7,7 +7,8 @@ defmodule SoundPlaceWeb.API.Fallback.UserController do
     |> json(%{message: "Unable to import user playlists"})
   end
   
-  def call(conn, {:error, _}) do
+  def call(conn, {:error, error}) do
+    IO.puts("ERROR: *********** #{inspect(error)}")
     conn
     |> put_status(500)
     |> json(%{message: "Unexpected error when trying to fetch user data"})

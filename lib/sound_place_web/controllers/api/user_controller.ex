@@ -1,6 +1,7 @@
 defmodule SoundPlaceWeb.API.UserController do
   use SoundPlaceWeb, :controller
   alias SoundPlace.Provider
+  alias SoundPlace.Transformer
   alias SoundPlace.Importer
 
   action_fallback SoundPlaceWeb.API.Fallback.UserController
@@ -18,11 +19,12 @@ defmodule SoundPlaceWeb.API.UserController do
   end
 
   def import(conn, _params) do
-    user = Guardian.Plug.current_resource(conn)
-    credentials = user.spotify_credential
+    user_id = Guardian.Plug.current_resource(conn).id
 
-    with {:ok, data} <- Provider.playlists(credentials) do
-         {:ok, playlists} = Importer.import_playlists(user, data)
+    with {:ok, playlists} <- Provider.Services.PlaylistService.get_all(from: user_id),
+         {:ok, playlists} <- Transformer.Services.PlaylistService.transform_all(from: user_id, with: playlists) do
+      
+      Importer.Services.PlaylistService.import_all(from: user_id, with: playlists)
       render(conn, "playlists.json", playlists: playlists)
     end
   end

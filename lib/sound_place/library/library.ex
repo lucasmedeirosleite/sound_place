@@ -4,8 +4,6 @@ defmodule SoundPlace.Library do
   alias SoundPlace.Repo
   alias SoundPlace.Library.Playlist
 
-  alias SoundPlace.Extensions.Parallel
-
   def list_playlists do
     Repo.all(Playlist)
   end
@@ -29,8 +27,8 @@ defmodule SoundPlace.Library do
   def save_playlists(playlists \\ []) do
     Repo.transaction(fn ->
       playlists
-      |> Parallel.pmap(&save_playlist/1)  
-      |> Parallel.pmap(fn({:ok, playlist}) -> playlist end)
+      |> Enum.map(&save_playlist/1)  
+      |> Enum.map(fn({:ok, playlist}) -> playlist end)
     end) 
   end
 

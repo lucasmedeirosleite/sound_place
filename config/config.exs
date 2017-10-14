@@ -1,7 +1,8 @@
 use Mix.Config
 
 config :sound_place,
-       web_app_url: System.get_env("SOUND_PLACE_WEB_APP")
+       web_app_url: System.get_env("SOUND_PLACE_WEB_APP"),
+       workers_timeout: :timer.seconds(30)
 
 config :sound_place,
        ecto_repos: [SoundPlace.Repo]
