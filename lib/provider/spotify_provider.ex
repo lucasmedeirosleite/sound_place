@@ -1,5 +1,5 @@
 defmodule SoundPlace.Provider.SpotifyProvider do
-  alias Spotify.{Authentication, Authorization, Credentials, Profile, Playlist}
+  alias Spotify.{Authentication, Authorization, Credentials, Profile, Playlist, Artist}
 
   def authorization_url, do: Authorization.url
 
@@ -16,10 +16,8 @@ defmodule SoundPlace.Provider.SpotifyProvider do
 
     case Authentication.refresh(spotify_credentials) do
       {:ok, new_credentials} ->
-        IO.inspect("***** REFRESHED TOKEN: #{inspect(new_credentials.access_token)}")
         {:ok, new_credentials.access_token}
-      error ->
-        IO.inspect("***** ERROR on refresh: #{inspect(error)}")
+      _error ->
         {:error, :failed_to_refresh_token}
     end
   end
@@ -73,6 +71,12 @@ defmodule SoundPlace.Provider.SpotifyProvider do
   def playlist_tracks(credentials, user_id, playlist_id, params) do
     perform_call(credentials, fn(credentials) ->
       Playlist.get_playlist_tracks(credentials, user_id, playlist_id, params)
+    end)
+  end
+
+  def followed_artists(credentials, params) do
+    perform_call(credentials, fn(cred) ->
+      Artist.artists_I_follow(cred, params)
     end)
   end
 

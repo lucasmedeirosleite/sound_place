@@ -1,0 +1,48 @@
+defmodule SoundPlace.Provider.ArtistsWorker do
+  use GenServer
+
+  alias SoundPlace.Accounts
+  alias SoundPlace.Provider
+
+  @timeout Application.get_env(:sound_place, :workers_timeout)
+
+  # Client Interface
+
+  def start_link(user_id) do
+    state = %{user_id: user_id}
+    GenServer.start_link(__MODULE__, state, name: via_tuple(user_id))
+  end
+
+  def get_artists(user_id) do
+    GenServer.call(via_tuple(user_id), :get_artists, @timeout)
+  end
+
+  # Server Callbacks
+
+  def init(state) do
+    {:ok, state}
+  end
+
+  def handle_call(:get_artists, _from, %{user_id: user_id} = state) do
+    credentials = Accounts.get_credentials(user_id: user_id)
+    
+    case Provider.followed_artists(credentials) do
+      {:ok, result} ->
+        new_state = state |> Map.put(:artists, result)
+        {:reply, {:ok, result}, new_state}
+      _ ->
+        new_state = state |> Map.put(:artists, [])
+        {:reply, {:ok, []}, new_state}
+    end
+  end
+
+  # Private functions
+
+  defp via_tuple(user_id) do
+    {:via, :gproc, {:n, :l, {:artists_provider_worker, set_worker_name(user_id)}}}
+  end
+
+  defp set_worker_name(user_id) do
+    "artists-provider-worker-#{user_id}"
+  end
+end

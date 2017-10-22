@@ -18,6 +18,21 @@ defmodule SoundPlaceWeb.API.UserController do
     render(conn, "playlists.json", playlists: playlists)
   end
 
+  def artists(conn, _params) do
+    user_id = Guardian.Plug.current_resource(conn).id
+
+    case SoundPlace.Library.list_artists(user_id: user_id) do
+      [] ->
+        with {:ok, artists} <- Provider.Services.ArtistsService.get_all(from: user_id),
+             {:ok, artists} <- Transformer.Services.ArtistsService.transform_all(from: user_id, with: artists) do
+          
+          render(conn, "artists.json", artists: artists)
+        end
+      artists ->
+        render(conn, "artists.json", artists: artists)
+    end
+  end
+
   def import(conn, _params) do
     user_id = Guardian.Plug.current_resource(conn).id
 

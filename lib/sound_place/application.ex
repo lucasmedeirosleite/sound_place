@@ -5,6 +5,7 @@ defmodule SoundPlace.Application do
   alias SoundPlace.Provider
   alias SoundPlace.Transformer
   alias SoundPlace.Supervisors.PlaylistsSupervisor
+  alias SoundPlace.Supervisors.ArtistsSupervisor
 
   def start(_type, _args) do
     import Supervisor.Spec
@@ -24,7 +25,15 @@ defmodule SoundPlace.Application do
       supervisor(PlaylistsSupervisor, 
                  [:playlists_importer_sup, Importer.PlaylistsWorker],
                  id: :playlists_importer_sup
-                )
+                ),
+      supervisor(ArtistsSupervisor, 
+                 [:artists_provider_sup, Provider.ArtistsWorker],
+                 id: :artists_provider_sup
+                ),
+      supervisor(ArtistsSupervisor, 
+                 [:artists_transformer_sup, Transformer.ArtistsWorker],
+                 id: :artists_transformer_sup
+                )                    
       # Start your own worker by calling: SoundPlace.Worker.start_link(arg1, arg2, arg3)
       # worker(SoundPlace.Worker, [arg1, arg2, arg3]),
     ]

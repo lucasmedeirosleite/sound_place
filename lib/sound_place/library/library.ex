@@ -2,7 +2,7 @@ defmodule SoundPlace.Library do
   import Ecto.Query, warn: false
 
   alias SoundPlace.Repo
-  alias SoundPlace.Library.Playlist
+  alias SoundPlace.Library.{Artist, Playlist}
 
   def list_playlists do
     Repo.all(Playlist)
@@ -57,5 +57,12 @@ defmodule SoundPlace.Library do
 
   def change_playlist(%Playlist{} = playlist) do
     Playlist.changeset(playlist, %{})
+  end
+
+  def list_artists(user_id: user_id) do
+    query = from artist in Artist,
+            where: artist.user_id == ^user_id
+    
+    Repo.all(query)
   end
 end

@@ -141,12 +141,19 @@ defmodule SoundPlace.Provider do
     {:ok, result}
   end
 
+  def followed_artists(credentials) do
+    perform_provider_call(credentials, [offset: 0, accumulated: []], fn(_offset, updated_credentials) ->
+      params = [limit: 50]
+      SpotifyProvider.followed_artists(updated_credentials, params)
+    end, "after")
+  end
+
   defp perform_provider_call(_cred, [offset: nil, accumulated: accumulated], _func)
   when is_list(accumulated), do: {:ok, accumulated}
 
-  defp perform_provider_call(cred, [offset: offset, accumulated: accumulated], func) do
+  defp perform_provider_call(cred, [offset: offset, accumulated: accumulated], func, offset_field \\ "offset") do
     with {:ok, response} <- func.(offset, cred),
-         {response, offset} <- extract_offset(accumulated, response) do
+         {response, offset} <- extract_offset(accumulated, response, offset_field) do
 
       perform_provider_call(cred, [offset: offset, accumulated: response], func)
     else 
@@ -162,16 +169,15 @@ defmodule SoundPlace.Provider do
     end
   end
 
-  defp extract_offset(accumulated, data) when is_list(data), do: {accumulated++data, nil}
-  defp extract_offset(accumulated, %Paging{items: data, next: nil}), do: {accumulated++data, nil}
-  defp extract_offset(accumulated, %Paging{items: data, next: next}) do
+  defp extract_offset(accumulated, data, _offset_field) when is_list(data), do: {accumulated++data, nil}
+  defp extract_offset(accumulated, %Paging{items: data, next: nil}, _offset_field), do: {accumulated++data, nil}
+  defp extract_offset(accumulated, %Paging{items: data, next: next}, offset_field) do
     offset = 
      next 
-     |> String.split("&") 
-     |> List.first 
-     |> String.split("=") 
+     |> String.split("?") 
      |> List.last 
-     |> String.to_integer
+     |> URI.decode_query 
+     |> Map.get(offset_field)
     
     {accumulated ++ data, offset}
   end
