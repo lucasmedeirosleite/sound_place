@@ -3,7 +3,7 @@ defmodule SoundPlace.Supervisors.PlaylistsSupervisor do
 
   # Client API
 
-  def start_link(name, worker) do
+  def start_link({name, worker}) do
     state = %{worker: worker, name: name}
     Supervisor.start_link(__MODULE__, state, name: via_tuple(name))
   end

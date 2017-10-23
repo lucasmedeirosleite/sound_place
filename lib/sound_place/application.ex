@@ -14,26 +14,26 @@ defmodule SoundPlace.Application do
     children = [
       supervisor(SoundPlace.Repo, []),
       supervisor(SoundPlaceWeb.Endpoint, []),
-      supervisor(PlaylistsSupervisor, 
-                 [:playlists_provider_sup, Provider.PlaylistsWorker], 
-                 id: :playlists_provider_sup
-                ),
-      supervisor(PlaylistsSupervisor, 
-                 [:playlists_transformer_sup, Transformer.PlaylistsWorker],
-                 id: :playlists_transformer_sup
-                ),
-      supervisor(PlaylistsSupervisor, 
-                 [:playlists_importer_sup, Importer.PlaylistsWorker],
-                 id: :playlists_importer_sup
-                ),
-      supervisor(ArtistsSupervisor, 
-                 [:artists_provider_sup, Provider.ArtistsWorker],
-                 id: :artists_provider_sup
-                ),
-      supervisor(ArtistsSupervisor, 
-                 [:artists_transformer_sup, Transformer.ArtistsWorker],
-                 id: :artists_transformer_sup
-                )                    
+      Supervisor.child_spec(
+        {PlaylistsSupervisor, {:playlists_provider_sup, Provider.PlaylistsWorker}},
+        id: :playlists_provider_sup
+      ),
+      Supervisor.child_spec(
+        {PlaylistsSupervisor, {:playlists_transformer_sup, Transformer.PlaylistsWorker}},
+        id: :playlists_transformer_sup
+      ),
+      Supervisor.child_spec(
+        {PlaylistsSupervisor, {:playlists_importer_sup, Importer.PlaylistsWorker}},
+        id: :playlists_importer_sup
+      ),
+      Supervisor.child_spec(
+        {ArtistsSupervisor, {:artists_provider_sup, Provider.ArtistsWorker}},
+        id: :artists_provider_sup
+      ),
+      Supervisor.child_spec(
+        {ArtistsSupervisor, {:artists_transformer_sup, Transformer.ArtistsWorker}},
+        id: :artists_transformer_sup
+      )                    
       # Start your own worker by calling: SoundPlace.Worker.start_link(arg1, arg2, arg3)
       # worker(SoundPlace.Worker, [arg1, arg2, arg3]),
     ]
