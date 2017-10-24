@@ -5,7 +5,9 @@ services:
     ports:
       - '5435:5432'
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     env_file:
       - '.env'
     volumes:
