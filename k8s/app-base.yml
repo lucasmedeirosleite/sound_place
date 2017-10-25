@@ -21,6 +21,12 @@ spec:
             - containerPort: 4000
               name: phx
           env:
+            - name: "PORT"
+              value: "4000"
+            - name: "HOST"
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: "DATABASE_URL"
               value: "postgres://postgres:s0undPl@c3@35.198.1.237:5432/sound_place_production"
             - name: "SECRET_KEY_BASE"
@@ -32,7 +38,7 @@ spec:
             - name: "SPOTIFY_USER_ID"
               value: "lucasmedeirosleite"
             - name: "SPOTIFY_CALLBACK_URL"
-              value: "http://dev:4000/auth/spotify/callback"
+              value: "http://10.52.1.6/auth/spotify/callback"
             - name: "SPOTIFY_CLIENT_ID"
               value: "e049fdc45ae246399410a31d2af0cbd3"
             - name: "SPOTIFY_SECRET_KEY"
