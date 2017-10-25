@@ -11,10 +11,7 @@ config :sound_place,
 config :sound_place,
        SoundPlace.Repo,
        adapter: Ecto.Adapters.Postgres,
-       hostname: System.get_env("SOUND_PLACE_DB_HOST"),
-       username: System.get_env("SOUND_PLACE_DB_USERNAME"),
-       password: System.get_env("SOUND_PLACE_DB_PASSWORD"),
-       database: "sound_place_production",
+       url: System.get_env("SOUND_PLACE_DB_URL"),
        pool_size: String.to_integer(System.get_env("POOL_SIZE") || "20"),
        ssl: false
 
