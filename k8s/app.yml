@@ -10,7 +10,7 @@ spec:
         name: sound-place-app
     spec:
       containers:
-        - image: CHANGE-HERE
+        - image: lucasmedeirosleite/soundplace:latest
           imagePullPolicy: Always
           name: sound-place-app
           resources:
