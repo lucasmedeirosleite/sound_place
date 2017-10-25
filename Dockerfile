@@ -24,6 +24,8 @@ RUN mix archive.install --force https://github.com/phoenixframework/archives/raw
 
 WORKDIR $APP_HOME
 
+ADD . $APP_HOME
+
 RUN mix deps.get --only prod
 RUN mix compile
 RUN cd assets && npm install && brunch build --production && cd ..

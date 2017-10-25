@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sound-place-app
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: sound-place-app
+    spec:
+      containers:
+        - image: CHANGE-HERE
+          imagePullPolicy: Always
+          name: sound-place-app
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "300m"
+          ports:
+            - containerPort: 4000
+              name: phx
+          env:
+            - name: "DATABASE_URL"
+              value: "postgres://postgres:s0undPl@c3@35.198.1.237:5432/sound_place_production"
+            - name: "SECRET_KEY_BASE"
+              value: "b7csCBTgJYFyBoCSfQjqpR0ak/0xcvQs8nNb3fWqu2XFoz4VRcWY2a+fJbvMzC2p"
+            - name: "GUARDIAN_SECRET_KEY"
+              value: "y6AqderYx2D9TYGszhMsFAl/48Woul+cKwbgE9jHavhWFdTWZA+BY0QjMjwvxEKM"
+            - name: "SOUND_PLACE_WEB_APP"
+              value: "http://soundplace.io/login"
+            - name: "SPOTIFY_USER_ID"
+              value: "lucasmedeirosleite"
+            - name: "SPOTIFY_CALLBACK_URL"
+              value: "http://dev:4000/auth/spotify/callback"
+            - name: "SPOTIFY_CLIENT_ID"
+              value: "e049fdc45ae246399410a31d2af0cbd3"
+            - name: "SPOTIFY_SECRET_KEY"
+              value: "e32a8f90936649cc9e1a3b11450cd806"
+          command: ["mix", "phx.server"]
