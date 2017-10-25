@@ -1,18 +1,18 @@
-apiVersion: apps/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sound-place-app
+  name: app
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
-        name: sound-place-app
+        name: app
     spec:
       containers:
         - image: lucasmedeirosleite/soundplace:latest
           imagePullPolicy: Always
-          name: sound-place-app
+          name: app
           resources:
             limits:
               memory: "512Mi"
