@@ -29,3 +29,5 @@ npm-debug.log
 
 .env
 .idea
+
+/k8s/app-secrets.yml

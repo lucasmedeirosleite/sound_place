@@ -22,25 +22,53 @@ spec:
               name: phx
           env:
             - name: "PORT"
-              value: "4000"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: PORT
             - name: "HOST"
               valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
+                secretKeyRef:
+                  name: secrets
+                  key: HOST
             - name: "DATABASE_URL"
-              value: "postgres://postgres:s0undPl@c3@35.198.1.237:5432/sound_place_production"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: DATABASE_URL
             - name: "SECRET_KEY_BASE"
-              value: "b7csCBTgJYFyBoCSfQjqpR0ak/0xcvQs8nNb3fWqu2XFoz4VRcWY2a+fJbvMzC2p"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SECRET_KEY_BASE
             - name: "GUARDIAN_SECRET_KEY"
-              value: "y6AqderYx2D9TYGszhMsFAl/48Woul+cKwbgE9jHavhWFdTWZA+BY0QjMjwvxEKM"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: GUARDIAN_SECRET_KEY
             - name: "SOUND_PLACE_WEB_APP"
-              value: "http://soundplace.io/login"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SOUND_PLACE_WEB_APP
             - name: "SPOTIFY_USER_ID"
-              value: "lucasmedeirosleite"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SPOTIFY_USER_ID
             - name: "SPOTIFY_CALLBACK_URL"
-              value: "http://10.52.1.6/auth/spotify/callback"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SPOTIFY_CALLBACK_URL
             - name: "SPOTIFY_CLIENT_ID"
-              value: "e049fdc45ae246399410a31d2af0cbd3"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SPOTIFY_CLIENT_ID
             - name: "SPOTIFY_SECRET_KEY"
-              value: "e32a8f90936649cc9e1a3b11450cd806"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: SPOTIFY_SECRET_KEY
           command: ["mix", "phx.server"]
