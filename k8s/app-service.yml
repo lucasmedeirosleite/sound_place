@@ -3,16 +3,13 @@ kind: Service
 metadata:
   name: app
   labels:
-    app: app
+    name: app
 spec:
-  ports:
-  - port: 80
-    targetPort: 4000
-    protocol: TCP
-    name: http
-  - port: 443
-    targetPort: 443
-    protocol: TCP
-    name: https
+  type: ClusterIP
   selector:
-    app: app
+    name: app
+  ports:
+    - port: 80
+      protocol: TCP
+      name: http
+      targetPort: 4000

@@ -2,11 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: app
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
 spec:
   tls:
-  - hosts:
-    - api-soundplace.com
-    secretName: default-server-secret
+    - secretName: tls-certificate
   rules:
   - host: api-soundplace.com
     http:
