@@ -3,13 +3,16 @@ kind: Service
 metadata:
   name: app
   labels:
-    name: app
+    app: app
 spec:
-  type: LoadBalancer
-  selector:
-    name: app
   ports:
-    - port: 80
-      protocol: TCP
-      name: http
-      targetPort: 4000
+  - port: 80
+    targetPort: 4000
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: app

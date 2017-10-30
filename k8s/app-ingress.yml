@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app
+spec:
+  tls:
+  - hosts:
+    - api-soundplace.com
+    secretName: default-server-secret
+  rules:
+  - host: api-soundplace.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app
+          servicePort: 80
