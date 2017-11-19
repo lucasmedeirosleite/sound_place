@@ -17,6 +17,7 @@ defmodule SoundPlace.Transformer.SpotifyTransformer do
     %{}
     |> Map.put(:sequence, track_map.track_number)
     |> Map.put(:album, transform_album(track_map.album))
+    |> Map.put(:artists, transform_artists(track_map.artists))
     |> Map.put(:song, transform_song(track_map))
   end
 
@@ -41,6 +42,7 @@ defmodule SoundPlace.Transformer.SpotifyTransformer do
     |> Map.put(:label, transform_label(album_map.label))
     |> Map.put(:album_type, transform_album_type(album_map.album_type))
     |> Map.put(:artists, Enum.map(album_map.artists, &transform_artist/1))
+    |> Map.put(:genres, Enum.map(album_map.genres, &transform_genre/1))
   end
 
   defp transform_release_date(release_date) do

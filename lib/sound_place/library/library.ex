@@ -3,6 +3,7 @@ defmodule SoundPlace.Library do
 
   alias SoundPlace.Repo
   alias SoundPlace.Library.{Artist, Playlist}
+  alias SoundPlace.Media.Track
 
   def list_playlists do
     Repo.all(Playlist)
@@ -15,11 +16,16 @@ defmodule SoundPlace.Library do
     Repo.all(query)
   end
 
-  def get_playlist!(id), do: Repo.get!(Playlist, id)
+  def get_playlist!(id) do
+    Playlist
+    |> Repo.get!(id)
+    |> Repo.preload(:tracks)
+  end
 
   def get_playlist(spotify_id: spotify_id) do
     query = from playlist in Playlist,
-            where: playlist.spotify_id == ^spotify_id
+            where: playlist.spotify_id == ^spotify_id,
+            preload: [:user, [tracks: [[album: :artists], :song]]]
     
     Repo.one(query)
   end
@@ -42,12 +48,14 @@ defmodule SoundPlace.Library do
   def create_playlist(attrs \\ %{}) do
     %Playlist{}
     |> Playlist.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:tracks, Repo, Track)
     |> Repo.insert()
   end
 
   def update_playlist(%Playlist{} = playlist, attrs) do
     playlist
     |> Playlist.changeset(attrs)
+    |> PhoenixMTM.Changeset.cast_collection(:tracks, Repo, Track)
     |> Repo.update()
   end
 

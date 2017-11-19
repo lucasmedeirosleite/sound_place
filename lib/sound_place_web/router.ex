@@ -59,5 +59,9 @@ defmodule SoundPlaceWeb.Router do
     get "/me/playlists", UserController, :playlists
     get "/me/artists", UserController, :artists
     post "/me/import", UserController, :import
+
+    resources "/playlists", PlaylistController, only: [] do
+      get "/tracks", PlaylistController, :tracks
+    end
   end
 end

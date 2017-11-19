@@ -22,7 +22,7 @@ defmodule SoundPlace.Media.Artist do
   def changeset(%Artist{} = artist, attrs) do
     artist
     |> cast(attrs, [:name, :website, :facebook, :instagram, :twitter, :spotify_id, :image, :youtube_id])
-    |> validate_required([:name, :spotify_id, :image])
+    |> validate_required([:name, :spotify_id])
     |> unique_constraint(:name)
     |> unique_constraint(:spotify_id)
   end

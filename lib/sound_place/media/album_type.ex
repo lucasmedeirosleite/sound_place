@@ -14,8 +14,7 @@ defmodule SoundPlace.Media.AlbumType do
   def changeset(%AlbumType{} = album_type, attrs) do
     album_type
     |> cast(attrs, [:name, :acronym])
-    |> validate_required([:name, :acronym])
+    |> validate_required([:name])
     |> unique_constraint(:name)
-    |> unique_constraint(:acronym)
   end
 end
