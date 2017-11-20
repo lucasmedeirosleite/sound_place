@@ -15,13 +15,13 @@ defmodule SoundPlaceWeb.API.PlaylistController do
         with {:ok, tracks_map} <- Provider.playlist_tracks(credentials, playlist_id),
              {playlist, converted_tracks} <- Transformer.transform_tracks(playlist, tracks_map),
              {:ok, tracks } <- Importer.import_tracks(playlist, converted_tracks) do
-          
-          render(conn, "tracks.json", tracks: tracks)
+
+          render(conn, "tracks.json", playlist: %{playlist | tracks: tracks })
         else _ ->
-          render(conn, "tracks.json", tracks: [])
+          render(conn, "tracks.json", playlist: %{playlist | tracks: []})
         end
       tracks ->
-        render(conn, "tracks.json", tracks: tracks)
+        render(conn, "tracks.json", playlist: %{playlist | tracks: tracks })
     end
   end
 end
